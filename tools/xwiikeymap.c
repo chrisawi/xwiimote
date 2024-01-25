@@ -218,8 +218,8 @@ static void monitor_poll(struct app *app)
 	int ret;
 
 	while ((str = xwii_monitor_poll(app->monitor))) {
-		/* sleep short time (10ms) to have the device fully setup */
-		usleep(10000);
+		/* sleep short time (100ms) to have the device fully setup */
+		usleep(100000);
 
 		dev = malloc(sizeof(*dev));
 		if (!dev) {
