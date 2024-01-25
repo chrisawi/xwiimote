@@ -26,6 +26,10 @@
 #include "log.h"
 #include "xwiimote.h"
 
+#define XWII_ID_BUS      0x0005
+#define XWII_ID_VENDOR   0x057e
+#define XWII_ID_PRODUCT  0x0306
+
 struct app {
 	struct ev_eloop *eloop;
 	struct ev_signal *sig_term;
@@ -181,7 +185,7 @@ static void device_event(struct ev_fd *fdo, int mask, void *data)
 		destroy_device(dev);
 	} else if (mask & EV_READABLE) {
 		while (1) {
-			ret = xwii_iface_poll(dev->iface, &event);
+			ret = xwii_iface_dispatch(dev->iface, &event, sizeof(event));
 			if (ret != -EAGAIN) {
 				if (ret) {
 					log_err("app: reading Wii Remote "
